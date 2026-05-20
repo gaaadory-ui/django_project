@@ -29,7 +29,7 @@ def contactus(request):
 
 @login_required(login_url='login')
 def register_customer(request):
-    # إذا كان المستخدم قد ضغط على زر الإرسال
+   
     if request.method == 'POST':
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():  # التحقق من صحة البيانات
