@@ -15,4 +15,5 @@ urlpatterns = [
     # ⚠️ مهم جداً: الـ CBV تستخدم <int:pk> وليس <int:id> للبحث عن السجل [cite: 1132, 1133]
     path('list/<int:pk>/update/', views.CustomerUpdateView.as_view(), name='customer_update'),
     path('list/<int:id>/delete/', views.customer_delete, name='customer_delete'), # (أبقينا الحذف بالدالة القديمة كمثال)
+    path('api/list/', views.CustomerListCreateAPI.as_view(), name='api_customer_list'),
 ]

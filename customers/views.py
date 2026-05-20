@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from rest_framework.generics import ListCreateAPIView
+from .serializers import CustomerSerializer
+
 
 def home(request):
     context = {
@@ -85,3 +88,10 @@ def logout_view(request):
     if request.method == 'POST':
         logout(request)
         return redirect('login')
+
+class CustomerListCreateAPI(ListCreateAPIView):
+    # 1. ما هي البيانات التي سنتعامل معها؟
+    queryset = Customer.objects.all()
+    
+    # 2. كيف سنترجمها إلى JSON؟
+    serializer_class = CustomerSerializer
