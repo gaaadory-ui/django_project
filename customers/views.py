@@ -5,6 +5,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 def home(request):
     context = {
@@ -26,43 +29,25 @@ def contactus(request):
         'description': 'Developed by Store Manager. E-mail: admin@store.com'
     }
     return render(request, 'customers/contactus.html', context)
+# بدلاً من 4 أسطر، سطرين فقط!
+class CustomerListView(LoginRequiredMixin, ListView):
+    model = Customer
+    template_name = 'customers/customer_list.html'
+    context_object_name = 'customers' # حتى لا نغير اسم المتغير في ملف HTML
 
-@login_required(login_url='login')
-def register_customer(request):
-   
-    if request.method == 'POST':
-        form = CustomerRegistrationForm(request.POST)
-        if form.is_valid():  # التحقق من صحة البيانات
-            form.save()      # حفظ البيانات في قاعدة البيانات
-            return redirect('customers_home') # إعادة توجيه للصفحة الرئيسية بعد النجاح
-    else:
-        # إذا كان المستخدم يزور الصفحة لأول مرة (عرض نموذج فارغ)
-        form = CustomerRegistrationForm()
-        
-    return render(request, 'customers/register.html', {'form': form})
+class CustomerCreateView(LoginRequiredMixin, CreateView):
+    model = Customer
+    template_name = 'customers/register.html'
+    fields = ['first_name', 'last_name', 'email', 'age', 'department'] # الحقول التي ستظهر للمستخدم
+    success_url = reverse_lazy('customer_list') # أين يذهب بعد النجاح؟
+    login_url = 'login' # أين يذهب إذا لم يكن مسجلاً للدخول؟
 
-@login_required(login_url='login')
-def customer_list(request):
-    # جلب جميع سجلات العملاء من قاعدة البيانات
-    customers = Customer.objects.all()
-    return render(request, 'customers/customer_list.html', {'customers': customers})
-
-@login_required(login_url='login')
-def customer_update(request, id):
-    # جلب العميل المطلوب بناءً على المعرف (ID) أو إظهار خطأ 404 إذا لم يوجد
-    customer = get_object_or_404(Customer, id=id)
-    
-    if request.method == 'POST':
-        # تمرير البيانات الجديدة مع الحفاظ على الكائن الأصلي (instance)
-        form = CustomerRegistrationForm(request.POST, instance=customer)
-        if form.is_valid():
-            form.save()
-            return redirect('customer_list')
-    else:
-        # عرض النموذج وبداخله بيانات العميل الحالية
-        form = CustomerRegistrationForm(instance=customer)
-        
-    return render(request, 'customers/register.html', {'form': form})
+class CustomerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Customer
+    template_name = 'customers/register.html'
+    fields = ['first_name', 'last_name', 'email', 'age', 'department']
+    success_url = reverse_lazy('customer_list')
+    login_url = 'login'
 
 @login_required(login_url='login')
 def customer_delete(request, id):
