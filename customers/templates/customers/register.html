@@ -1,0 +1,14 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<h2>Register as a New Customer</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Submit Registration</button>
+    <a href="{% url 'customers_home' %}">Cancel and Go Back</a>
+</form>
+{% endblock %}

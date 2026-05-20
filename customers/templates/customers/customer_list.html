@@ -1,0 +1,29 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<h2>Registered Customers List</h2>
+<table border="1" style="width:100%; border-collapse: collapse; text-align: left;">
+    <tr style="background-color: #2c3e50; color: white;">
+        <th style="padding: 10px;">Name</th>
+        <th style="padding: 10px;">Email</th>
+        <th style="padding: 10px;">Department</th>
+        <th style="padding: 10px;">Actions</th>
+    </tr>
+    {% for customer in customers %}
+    <tr>
+        <td style="padding: 10px;">{{ customer.first_name }} {{ customer.last_name }}</td>
+        <td style="padding: 10px;">{{ customer.email }}</td>
+        <td style="padding: 10px;">{% if customer.department %}
+            {{ customer.department.name }}{% else %}<span style="color: gray;">unassigned</span>{% endif %}</td>
+        <td style="padding: 10px;">
+            <a href="{% url 'customer_update' customer.id %}">Edit</a> |
+            <a href="{% url 'customer_delete' customer.id %}" style="color: red;">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3" style="text-align: center; padding: 20px;">No customers found.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
