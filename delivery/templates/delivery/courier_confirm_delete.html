@@ -1,0 +1,11 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<h2>تأكيد الحذف</h2>
+<p>هل أنت متأكد أنك تريد حذف المندوب: <strong>{{ object.name }}</strong>؟</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" style="background-color: red; color: white; padding: 8px;">نعم، احذف نهائياً</button>
+    <a href="{% url 'courier_list' %}" style="margin-left: 10px;">إلغاء</a>
+</form>
+{% endblock %}

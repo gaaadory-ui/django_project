@@ -16,7 +16,7 @@
         <a href="{% url 'customers_home' %}">Home</a>
         <a href="{% url 'customers_about' %}">About</a>
         <a href="{% url 'contactus' %}">Contact Us</a>
-
+        <a href="{% url 'courier_list' %}">Delivery Agents</a>
         {% if user.is_authenticated %}
         <a href="{% url 'register_customer' %}"
             style="background-color: #e67e22; padding: 5px 10px; border-radius: 4px; color: white;">Register</a>

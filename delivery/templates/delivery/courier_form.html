@@ -1,0 +1,11 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<h2>تعديل بيانات المندوب</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" style="background-color: #e67e22; color: white; padding: 8px;">حفظ التعديلات</button>
+    <a href="{% url 'courier_list' %}" style="margin-left: 10px;">إلغاء</a>
+</form>
+{% endblock %}

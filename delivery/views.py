@@ -1,0 +1,24 @@
+from django.shortcuts import render
+from django.views.generic import ListView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Courier
+
+# 1. عرض البيانات (Read)
+class CourierListView(ListView):
+    model = Courier
+    template_name = 'delivery/courier_list.html'
+    context_object_name = 'couriers'
+
+# 2. تعديل البيانات (Update)
+class CourierUpdateView(UpdateView):
+    model = Courier
+    template_name = 'delivery/courier_form.html'
+    fields = ['name', 'phone', 'vehicle_type']
+    success_url = reverse_lazy('courier_list')
+
+# 3. حذف البيانات (Delete)
+class CourierDeleteView(DeleteView):
+    model = Courier
+    template_name = 'delivery/courier_confirm_delete.html'
+    success_url = reverse_lazy('courier_list')
+
