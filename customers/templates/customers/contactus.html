@@ -1,15 +1,13 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<div class="info-card card">
-    <h1>اتصل بمدراء المتجر</h1>
-    
-    <div style="margin: 20px auto; max-width: 600px; line-height: 1.8;">
-        <p>{{ description }}</p>
-        
-        <div style="margin-top: 25px;">
-            <span class="badge-dept">الدعم الفني متوفر على مدار الساعة</span>
-        </div>
+<div class="card card-info" style="line-height: 1.8;">
+    <h2 style="color: var(--primary-color); font-weight: 700; margin-bottom: 20px; border-bottom: 2px solid var(--secondary-light); padding-bottom: 10px;">تواصل معنا</h2>
+    <p style="color: var(--text-main); font-size: 16px;">
+        {{ description }}
+    </p>
+    <div style="margin-top: 25px;">
+        <span class="badge-none" style="background: var(--secondary-light); color: var(--secondary-dark); border: 1px solid rgba(197, 160, 89, 0.25);">الدعم متوفر على مدار الساعة</span>
     </div>
 </div>
 {% endblock %}
