@@ -1,29 +1,21 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<div
-    style="max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-
-    <h2
-        style="color: #2980b9; border-bottom: 2px solid #ecf0f1; padding-bottom: 15px; margin-bottom: 20px; text-align: center;">
-        تسجيل الدخول
-    </h2>
+<div class="form-container">
+    <h2>تسجيل الدخول</h2>
 
     <form method="POST">
         {% csrf_token %}
 
-        <div style="line-height: 1.8;">
-            {{ form.as_p }}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-full">دخول (Login)</button>
         </div>
 
-        <div style="margin-top: 25px;">
-            <button type="submit" class="btn btn-blue" style="width: 100%; font-size: 16px;">دخول (Login)</button>
-        </div>
-
-        <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #7f8c8d;">
+        <div class="form-footer">
             ليس لديك حساب؟
-            <a href="{% url 'register_account' %}"
-                style="color: #2980b9; text-decoration: none; font-weight: bold;">أنشئ حساباً جديداً</a>
+            <a href="{% url 'register_account' %}">أنشئ حساباً جديداً</a>
         </div>
     </form>
 </div>

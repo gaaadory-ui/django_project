@@ -1,23 +1,20 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<div
-    style="max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-
-    <h2 style="color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 15px; margin-bottom: 20px;">
-        + تسجيل مندوب جديد
-    </h2>
+<div class="form-container">
+    <h2>تسجيل مندوب جديد</h2>
 
     <form method="POST">
         {% csrf_token %}
 
-        <div style="line-height: 2;">
-            {{ form.as_p }}
-        </div>
+        {{ form.as_p }}
 
-        <div style="margin-top: 25px; display: flex; gap: 15px;">
-            <button type="submit" class="btn btn-green">إضافة المندوب</button>
-            <a href="{% url 'courier_list' %}" class="btn" style="background-color: #95a5a6;">إلغاء والعودة</a>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-full">إضافة المندوب</button>
+        </div>
+        
+        <div class="form-footer">
+            <a href="{% url 'courier_list' %}">إلغاء والعودة للقائمة</a>
         </div>
     </form>
 </div>

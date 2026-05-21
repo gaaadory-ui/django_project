@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="page-header">
-    <h2 style="color: #2c3e50; margin: 0;">قائمة مناديب التوصيل</h2>
+    <h2>قائمة مناديب التوصيل</h2>
 
-    <div style="display: flex; gap: 10px;">
+    <div class="header-actions">
         <a href="{% url 'api_courier_list' %}" target="_blank" class="btn btn-purple">
             عرض بيانات الـ API 🚀
         </a>
@@ -33,10 +33,13 @@
     <tbody>
         {% for courier in couriers %}
         <tr>
-            <td style="font-weight: bold;">{{ courier.name }}</td>
+            <td style="font-weight: 700;">{{ courier.name }}</td>
             <td>{{ courier.phone }}</td>
-            <td><span style="background: #ecf0f1; padding: 5px 10px; border-radius: 12px; font-size: 14px;">{{
-                    courier.vehicle_type }}</span></td>
+            <td>
+                <span class="badge-vehicle">
+                    {{ courier.vehicle_type }}
+                </span>
+            </td>
 
             {% if user.is_superuser %}
             <td>
@@ -48,7 +51,7 @@
         {% empty %}
         <tr>
             <td colspan="{% if user.is_superuser %}4{% else %}3{% endif %}"
-                style="text-align: center; padding: 40px; color: #7f8c8d;">
+                style="text-align: center; padding: 40px; color: var(--text-muted);">
                 لا يوجد مناديب حالياً في النظام.
             </td>
         </tr>

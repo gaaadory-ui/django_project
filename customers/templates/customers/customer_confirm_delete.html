@@ -1,12 +1,20 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<h2>Are you sure?</h2>
-<p>You are about to delete the customer: <strong>{{ customer.first_name }} {{ customer.last_name }}</strong>.</p>
+<div class="delete-container">
+    <h2>تأكيد الحذف!</h2>
+    
+    <p>
+        هل أنت متأكد أنك تريد حذف العميل <strong>"{{ customer.first_name }} {{ customer.last_name }}"</strong> بشكل نهائي؟
+        <span class="delete-subtext">لا يمكن التراجع عن هذه الخطوة بعد التنفيذ.</span>
+    </p>
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit" style="background-color: red; color: white; padding: 10px;">Yes, Delete Permanently</button>
-    <a href="{% url 'customer_list' %}">Cancel</a>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions" style="justify-content: center; margin: 0;">
+            <button type="submit" class="btn btn-red">نعم، احذف العميل</button>
+            <a href="{% url 'customer_list' %}" class="btn btn-secondary">إلغاء</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

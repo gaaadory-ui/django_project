@@ -1,6 +1,15 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<h1>Contact The Store Managers</h1>
-<p>{{ description }}</p>
+<div class="info-card card">
+    <h1>اتصل بمدراء المتجر</h1>
+    
+    <div style="margin: 20px auto; max-width: 600px; line-height: 1.8;">
+        <p>{{ description }}</p>
+        
+        <div style="margin-top: 25px;">
+            <span class="badge-dept">الدعم الفني متوفر على مدار الساعة</span>
+        </div>
+    </div>
+</div>
 {% endblock %}

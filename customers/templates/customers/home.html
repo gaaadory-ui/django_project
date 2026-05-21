@@ -2,11 +2,22 @@
 {% load static %}
 
 {% block content %}
-<h1>{{ message }}</h1>
-<p>This is the home page for our customers.</p>
-<ul>
-    <li>Templates</li>
-    <li>Static Files</li>
-    <li>URL Routing</li>
-</ul>
+<div class="welcome-section">
+    <h1>{{ message }}</h1>
+    <p>بوابة إدارة العملاء ومناديب التوصيل الخاصة بالمتجر</p>
+    
+    <div style="margin: 35px auto; max-width: 700px;">
+        <div class="card card-info" style="text-align: center;">
+            <h3 style="color: var(--primary-color); margin-bottom: 20px; font-weight: 700;">المميزات الأساسية في البوابة</h3>
+            
+            <ul class="interactive-list">
+                <li>إدارة العملاء</li>
+                <li>إدارة المناديب</li>
+                <li>توزيع الأقسام</li>
+                <li>واجهات برمجة التطبيقات API</li>
+                <li>لوحة تحكم الإدارة</li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
