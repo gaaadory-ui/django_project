@@ -62,31 +62,22 @@ class CourierDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # 🌟 واجهات برمجة التطبيقات (APIs - REST Framework) 🌟
 # ==========================================
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.serializers import Serializer
+from rest_framework.permissions import AllowAny
 from .serializers import CourierSerializer
-from rest_framework.permissions import BasePermission
-
-class IsSuperUser(BasePermission):
-    """
-    يسمح فقط للمستخدمين الـ Superusers بالوصول.
-    """
-    def has_permission(self, request, view):
-        # نتحقق إذا كان المستخدم مسجل الدخول وهو "سوبر يوزر"
-        return bool(request.user and request.user.is_superuser)
-        # 1. عرض جميع المناديب (GET) وإضافة مندوب جديد (POST)
 
 
 class CourierListCreateAPI(generics.ListCreateAPIView):
     queryset = Courier.objects.all()
     serializer_class = CourierSerializer
-    permission_classes = [IsSuperUser]   
+    permission_classes = [AllowAny]
+    authentication_classes = []
 
-# 2. عرض، تعديل، وحذف مندوب واحد بناءً على رقم الـ ID
+
 class CourierDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Courier.objects.all()
     serializer_class = CourierSerializer
-    permission_classes = [IsSuperUser]
+    permission_classes = [AllowAny]
+    authentication_classes = []
 
 
 # ==========================================
