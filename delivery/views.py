@@ -19,6 +19,16 @@ class CourierListView(LoginRequiredMixin, ListView):
     context_object_name = 'couriers'
     login_url = 'login'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courier_count'] = Courier.objects.count()
+        context['vehicle_types'] = (
+            Courier.objects.order_by('vehicle_type')
+            .values_list('vehicle_type', flat=True)
+            .distinct()
+        )
+        return context
+
 # 2. إضافة مندوب جديد
 class CourierCreateView(LoginRequiredMixin,UserPassesTestMixin, CreateView):
     model = Courier

@@ -10,12 +10,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from rest_framework.generics import ListCreateAPIView
 from .serializers import CustomerSerializer
+from delivery.models import Courier
 
 
 def home(request):
     context = {
         'title': 'Home Page',
-        'message': 'Welcome to the Customers Application'
+        'message': 'Welcome to the Customers Application',
+        'customer_count': Customer.objects.count(),
+        'courier_count': Courier.objects.count(),
     }
     return render(request, 'customers/home.html', context)
 
@@ -37,6 +40,13 @@ class CustomerListView(LoginRequiredMixin, ListView):
     model = Customer
     template_name = 'customers/customer_list.html'
     context_object_name = 'customers' # حتى لا نغير اسم المتغير في ملف HTML
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from .models import Department
+        context['departments'] = Department.objects.all()
+        context['customer_count'] = Customer.objects.count()
+        return context
 
 class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer

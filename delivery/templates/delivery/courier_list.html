@@ -2,60 +2,108 @@
 
 {% block content %}
 <div class="page-header">
-    <h2>قائمة مناديب التوصيل</h2>
-
+    <div>
+        <h2>قائمة مناديب التوصيل</h2>
+        <p class="page-subtitle">إجمالي {{ courier_count }} مندوب</p>
+    </div>
     <div class="header-actions">
-        <a href="{% url 'api_courier_list' %}" target="_blank" class="btn btn-purple">
-            عرض بيانات الـ API 🚀
-        </a>
-
+        <a href="{% url 'api_courier_list' %}" target="_blank" class="btn btn-purple">عرض API</a>
         {% if user.is_superuser %}
-        <a href="{% url 'courier_register' %}" class="btn btn-green">
-            + إضافة مندوب جديد
-        </a>
+        <a href="{% url 'courier_register' %}" class="btn btn-green">+ إضافة مندوب</a>
         {% endif %}
     </div>
 </div>
 
-<table class="modern-table">
-    <thead>
-        <tr>
-            <th>الاسم</th>
-            <th>رقم الهاتف</th>
-            <th>نوع المركبة</th>
+<div class="filter-bar">
+    <div class="filter-left">
+        <div class="filter-group">
+            <label for="courier-search">بحث</label>
+            <input type="search" id="courier-search" class="filter-input" placeholder="الاسم أو الهاتف...">
+        </div>
+        <div class="filter-group">
+            <label for="vehicle-filter">المركبة</label>
+            <select id="vehicle-filter" class="filter-select">
+                <option value="">كل المركبات</option>
+                {% for vt in vehicle_types %}
+                <option value="{{ vt }}">{{ vt }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <span class="filter-result-count" id="courier-filter-count">{{ couriers|length }} نتيجة</span>
+</div>
 
-            {% if user.is_superuser %}
-            <th>الإجراءات</th>
-            {% endif %}
-        </tr>
-    </thead>
+{% if couriers %}
+<div class="records-grid" id="courier-grid">
+    {% for courier in couriers %}
+    <article class="record-card"
+        data-search="{{ courier.name }} {{ courier.phone }}"
+        data-vehicle="{{ courier.vehicle_type }}">
+        <div class="record-card-header">
+            <h3 class="record-name">{{ courier.name }}</h3>
+            <span class="badge-vehicle">{{ courier.vehicle_type }}</span>
+        </div>
+        <div class="record-card-body">
+            <p class="record-meta">
+                <span class="record-label">الهاتف</span>
+                <span dir="ltr">{{ courier.phone }}</span>
+            </p>
+        </div>
+        {% if user.is_superuser %}
+        <div class="record-card-actions">
+            <a href="{% url 'courier_update' courier.id %}" class="btn btn-primary btn-sm">تعديل</a>
+            <a href="{% url 'courier_delete' courier.id %}" class="btn btn-red btn-sm">حذف</a>
+        </div>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>لا يوجد مناديب حالياً في النظام.</p>
+    {% if user.is_superuser %}
+    <a href="{% url 'courier_register' %}" class="btn btn-green">+ إضافة أول مندوب</a>
+    {% endif %}
+</div>
+{% endif %}
 
-    <tbody>
-        {% for courier in couriers %}
-        <tr>
-            <td style="font-weight: 700;">{{ courier.name }}</td>
-            <td>{{ courier.phone }}</td>
-            <td>
-                <span class="badge-vehicle">
-                    {{ courier.vehicle_type }}
-                </span>
-            </td>
+<div class="empty-state empty-state-filtered" id="courier-no-results" hidden>
+    <p>لا توجد نتائج مطابقة للبحث.</p>
+</div>
 
-            {% if user.is_superuser %}
-            <td>
-                <a href="{% url 'courier_update' courier.id %}" class="text-link blue-text">تعديل</a> |
-                <a href="{% url 'courier_delete' courier.id %}" class="text-link red-text">حذف</a>
-            </td>
-            {% endif %}
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="{% if user.is_superuser %}4{% else %}3{% endif %}"
-                style="text-align: center; padding: 40px; color: var(--text-muted);">
-                لا يوجد مناديب حالياً في النظام.
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<script>
+(function () {
+    const search = document.getElementById('courier-search');
+    const vehicle = document.getElementById('vehicle-filter');
+    const cards = document.querySelectorAll('#courier-grid .record-card');
+    const countEl = document.getElementById('courier-filter-count');
+    const noResults = document.getElementById('courier-no-results');
+    const grid = document.getElementById('courier-grid');
+
+    function applyFilters() {
+        const q = (search?.value || '').trim().toLowerCase();
+        const vehicleVal = vehicle?.value || '';
+        let visible = 0;
+
+        cards.forEach(function (card) {
+            const text = (card.dataset.search || '').toLowerCase();
+            const cardVehicle = card.dataset.vehicle || '';
+            const matchSearch = !q || text.includes(q);
+            const matchVehicle = !vehicleVal || cardVehicle === vehicleVal;
+            const show = matchSearch && matchVehicle;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        if (countEl) countEl.textContent = visible + ' نتيجة';
+        if (noResults && grid) {
+            noResults.hidden = visible > 0 || cards.length === 0;
+            grid.hidden = visible === 0 && cards.length > 0;
+        }
+    }
+
+    search?.addEventListener('input', applyFilters);
+    vehicle?.addEventListener('change', applyFilters);
+})();
+</script>
 {% endblock %}

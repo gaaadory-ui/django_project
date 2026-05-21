@@ -6,11 +6,65 @@
     <h1>{{ message }}</h1>
     <p>بوابة إدارة العملاء ومناديب التوصيل الخاصة بالمتجر</p>
 
+    <div class="stats-grid" style="max-width: 700px; margin: 0 auto 30px;">
+        <div class="stat-card card-teal">
+            <div class="stat-header">
+                <span class="stat-label">العملاء</span>
+                <span class="stat-icon">👥</span>
+            </div>
+            <div class="stat-number">{{ customer_count }}</div>
+            <div class="stat-desc">عميل مسجل في النظام</div>
+        </div>
+        <div class="stat-card card-gold">
+            <div class="stat-header">
+                <span class="stat-label">المناديب</span>
+                <span class="stat-icon">🛵</span>
+            </div>
+            <div class="stat-number">{{ courier_count }}</div>
+            <div class="stat-desc">مندوب توصيل نشط</div>
+        </div>
+    </div>
+
+    <div class="home-actions">
+        {% if user.is_authenticated %}
+        <a href="{% url 'customer_list' %}" class="btn btn-green home-action-btn">
+            <span class="home-action-icon">👥</span>
+            <span>إدارة العملاء</span>
+        </a>
+        <a href="{% url 'courier_list' %}" class="btn btn-primary home-action-btn">
+            <span class="home-action-icon">🛵</span>
+            <span>إدارة المناديب</span>
+        </a>
+        {% if user.is_superuser %}
+        <a href="/admin/" class="btn btn-purple home-action-btn">
+            <span class="home-action-icon">⚙️</span>
+            <span>لوحة التحكم</span>
+        </a>
+        {% else %}
+        <a href="{% url 'customers_about' %}" class="btn btn-accent home-action-btn">
+            <span class="home-action-icon">ℹ️</span>
+            <span>من نحن</span>
+        </a>
+        {% endif %}
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-green home-action-btn">
+            <span class="home-action-icon">🔐</span>
+            <span>تسجيل الدخول</span>
+        </a>
+        <a href="{% url 'register_account' %}" class="btn btn-blue home-action-btn">
+            <span class="home-action-icon">📝</span>
+            <span>إنشاء حساب</span>
+        </a>
+        <a href="{% url 'contactus' %}" class="btn btn-accent home-action-btn">
+            <span class="home-action-icon">📧</span>
+            <span>تواصل معنا</span>
+        </a>
+        {% endif %}
+    </div>
+
     <div style="margin: 35px auto; max-width: 700px;">
         <div class="card card-info" style="text-align: center;">
-            <h3 style="color: var(--primary-color); margin-bottom: 20px; font-weight: 700;">المميزات الأساسية في البوابة
-            </h3>
-
+            <h3 style="color: var(--primary-color); margin-bottom: 20px; font-weight: 700;">المميزات الأساسية في البوابة</h3>
             <ul class="interactive-list">
                 <li>إدارة العملاء</li>
                 <li>إدارة المناديب</li>
