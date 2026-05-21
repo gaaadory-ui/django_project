@@ -25,7 +25,7 @@ class CourierDeleteView(DeleteView):
 
 class CourierCreateView(LoginRequiredMixin, CreateView):
     model = Courier
-    template_name = 'dlivery/courier_form.html' # يعيد استخدام نفس قالب النموذج الذي أنشأناه سابقاً
+    template_name = 'delivery/courier_form.html' # يعيد استخدام نفس قالب النموذج الذي أنشأناه سابقاً
     fields = ['name', 'phone', 'vehicle_type'] # الحقول المطلوبة للإدخال
     success_url = reverse_lazy('courier_list') # التوجيه لقائمة المناديب تلقائياً بعد الحفظ
     login_url = 'login' # حماية الصفحة ومنع الزوار غير المسجلين من الدخول
