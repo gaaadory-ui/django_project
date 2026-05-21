@@ -1,31 +1,45 @@
-from django.shortcuts import render
-from django.views.generic import ListView, UpdateView, DeleteView, CreateView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Courier
+from .forms import CourierForm
 
-# 1. عرض البيانات (Read)
-class CourierListView(ListView):
-    model = Courier
-    template_name = 'delivery/courier_list.html'
-    context_object_name = 'couriers'
+# 1. عرض قائمة المناديب
+@login_required(login_url='login')
+def courier_list(request):
+    couriers = Courier.objects.all()
+    return render(request, 'delivery/courier_list.html', {'couriers': couriers})
 
-# 2. تعديل البيانات (Update)
-class CourierUpdateView(UpdateView):
-    model = Courier
-    template_name = 'delivery/courier_form.html'
-    fields = ['name', 'phone', 'vehicle_type']
-    success_url = reverse_lazy('courier_list')
+# 2. إضافة مندوب جديد
+@login_required(login_url='login')
+def courier_create(request):
+    if request.method == 'POST':
+        form = CourierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('courier_list')
+    else:
+        form = CourierForm()
+    return render(request, 'delivery/courier_register.html.html', {'form': form})
 
-# 3. حذف البيانات (Delete)
-class CourierDeleteView(DeleteView):
-    model = Courier
-    template_name = 'delivery/courier_confirm_delete.html'
-    success_url = reverse_lazy('courier_list')
+# 3. تعديل بيانات مندوب
+@login_required(login_url='login')
+def courier_update(request, id):
+    courier = get_object_or_404(Courier, id=id)
+    if request.method == 'POST':
+        form = CourierForm(request.POST, instance=courier)
+        if form.is_valid():
+            form.save()
+            return redirect('courier_list')
+    else:
+        form = CourierForm(instance=courier)
+    return render(request, 'delivery/courier_form.html', {'form': form})
 
-class CourierCreateView(LoginRequiredMixin, CreateView):
-    model = Courier
-    template_name = 'delivery/courier_form.html' # يعيد استخدام نفس قالب النموذج الذي أنشأناه سابقاً
-    fields = ['name', 'phone', 'vehicle_type'] # الحقول المطلوبة للإدخال
-    success_url = reverse_lazy('courier_list') # التوجيه لقائمة المناديب تلقائياً بعد الحفظ
-    login_url = 'login' # حماية الصفحة ومنع الزوار غير المسجلين من الدخول
+# 4. حذف مندوب
+@login_required(login_url='login')
+def courier_delete(request, id):
+    courier = get_object_or_404(Courier, id=id)
+    if request.method == 'POST':
+        courier.delete()
+        return redirect('courier_list')
+    # مررنا المتغير باسم 'object' ليتطابق مع ما كتبناه في القالب سابقاً
+    return render(request, 'delivery/courier_confirm_delete.html', {'object': courier})

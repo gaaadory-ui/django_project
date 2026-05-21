@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -10,33 +10,49 @@
 
 <body>
 
-    <nav>
-        <img src="{% static 'customers/images/logo.png' %}" alt="Logo" width="40" style="vertical-align: middle;">
+    <nav
+        style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #2c3e50;">
 
-        <a href="{% url 'customers_home' %}">Home</a>
-        <a href="{% url 'customers_about' %}">About</a>
-        <a href="{% url 'contactus' %}">Contact Us</a>
-        <a href="{% url 'courier_list' %}">Delivery Agents</a>
-        {% if user.is_authenticated %}
-        <a href="{% url 'courier_register' %}"
-            style="background-color: #27ae60; padding: 5px 10px; border-radius: 4px; color: white;">Add Courier</a>
-        <a href="{% url 'register_customer' %}"
-            style="background-color: #e67e22; padding: 5px 10px; border-radius: 4px; color: white;">Register</a>
-        <a href="{% url 'customer_list' %}">View Customers</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="{% static 'customers/images/logo.png' %}" alt="Logo" width="40" style="vertical-align: middle;">
 
-        <span style="font-weight: bold; margin-left: 20px; color: #f39c12;">
-            Welcome, {{ user.username }}!
-        </span>
+            <a href="{% url 'customers_home' %}" style="color: white; text-decoration: none;">الرئيسية</a>
+            <a href="{% url 'customers_about' %}" style="color: white; text-decoration: none;">حول المتجر</a>
+            <a href="{% url 'contactus' %}" style="color: white; text-decoration: none;">اتصل بنا</a>
 
-        <form action="{% url 'logout' %}" method="POST" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" style="margin-left: 10px; cursor: pointer;">Logout</button>
-        </form>
+            {% if user.is_authenticated %}
+            <a href="{% url 'customer_list' %}"
+                style="color: white; text-decoration: none; font-weight: bold;">العملاء</a>
+            <a href="{% url 'courier_list' %}"
+                style="color: white; text-decoration: none; font-weight: bold;">المناديب</a>
+            {% endif %}
+        </div>
 
-        {% else %}
-        <a href="{% url 'login' %}" style="margin-left: 20px;">Login</a>
-        <a href="{% url 'register_account' %}">Create Account</a>
-        {% endif %}
+        <div style="display: flex; align-items: center; gap: 15px;">
+            {% if user.is_authenticated %}
+            <a href="/admin/"
+                style="background-color: #c0392b; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold;">لوحة
+                الإدارة (Admin)</a>
+
+            <span style="font-weight: bold; color: #f39c12;">
+                مرحباً، {{ user.username }}!
+            </span>
+
+            <form action="{% url 'logout' %}" method="POST" style="display:inline; margin: 0;">
+                {% csrf_token %}
+                <button type="submit"
+                    style="cursor: pointer; background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold;">تسجيل
+                    الخروج</button>
+            </form>
+
+            {% else %}
+            <a href="{% url 'login' %}" style="color: white; text-decoration: none;">تسجيل الدخول</a>
+            <a href="{% url 'register_account' %}"
+                style="color: white; text-decoration: none; background-color: #2980b9; padding: 6px 12px; border-radius: 4px;">إنشاء
+                حساب</a>
+            {% endif %}
+        </div>
+
     </nav>
 
     <div class="container">
