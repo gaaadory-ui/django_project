@@ -5,7 +5,7 @@ from .forms import CourierForm
 
 # ---- الاستدعاءات الجديدة الخاصة بالكلاسات المتقدمة ----
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
 # ==========================================
@@ -20,27 +20,63 @@ class CourierListView(LoginRequiredMixin, ListView):
     login_url = 'login'
 
 # 2. إضافة مندوب جديد
-class CourierCreateView(LoginRequiredMixin, CreateView):
+class CourierCreateView(LoginRequiredMixin,UserPassesTestMixin, CreateView):
     model = Courier
     template_name = 'delivery/courier_register.html' # ✅ تم توجيهها لصفحة التسجيل الجديدة
     fields = ['name', 'phone', 'vehicle_type']
     success_url = reverse_lazy('courier_list')
     login_url = 'login'
+    def test_func(self):
+        return self.request.user.is_superuser
 
 # 3. تعديل مندوب
-class CourierUpdateView(LoginRequiredMixin, UpdateView):
+class CourierUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Courier
     template_name = 'delivery/courier_form.html' # تستخدم صفحة الفورم العادية
     fields = ['name', 'phone', 'vehicle_type']
     success_url = reverse_lazy('courier_list')
     login_url = 'login'
+    def test_func(self):
+        return self.request.user.is_superuser
 
 # 4. حذف مندوب
-class CourierDeleteView(LoginRequiredMixin, DeleteView):
+class CourierDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Courier
     template_name = 'delivery/courier_confirm_delete.html'
     success_url = reverse_lazy('courier_list')
     login_url = 'login'
+    def test_func(self):
+        return self.request.user.is_superuser
+
+# ==========================================
+# 🌟 واجهات برمجة التطبيقات (APIs - REST Framework) 🌟
+# ==========================================
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import Serializer
+from .serializers import CourierSerializer
+from rest_framework.permissions import BasePermission
+
+class IsSuperUser(BasePermission):
+    """
+    يسمح فقط للمستخدمين الـ Superusers بالوصول.
+    """
+    def has_permission(self, request, view):
+        # نتحقق إذا كان المستخدم مسجل الدخول وهو "سوبر يوزر"
+        return bool(request.user and request.user.is_superuser)
+        # 1. عرض جميع المناديب (GET) وإضافة مندوب جديد (POST)
+
+
+class CourierListCreateAPI(generics.ListCreateAPIView):
+    queryset = Courier.objects.all()
+    serializer_class = CourierSerializer
+    permission_classes = [IsSuperUser]   
+
+# 2. عرض، تعديل، وحذف مندوب واحد بناءً على رقم الـ ID
+class CourierDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Courier.objects.all()
+    serializer_class = CourierSerializer
+    permission_classes = [IsSuperUser]
 
 
 # ==========================================

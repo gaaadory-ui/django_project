@@ -25,4 +25,6 @@ urlpatterns = [
     # مسارات التعديل والحذف (✅ تم تغيير id إلى pk)
     path('<int:pk>/update/', views.CourierUpdateView.as_view(), name='courier_update'),
     path('<int:pk>/delete/', views.CourierDeleteView.as_view(), name='courier_delete'),
+    path('api/', views.CourierListCreateAPI.as_view(), name='api_courier_list'),
+    path('api/<int:pk>/', views.CourierDetailAPI.as_view(), name='api_courier_detail'),
 ]

@@ -1,9 +1,31 @@
 {% extends 'customers/base.html' %}
+
 {% block content %}
-<h2>Create a System Account</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-</form>
+<div
+    style="max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+
+    <h2
+        style="color: #2980b9; border-bottom: 2px solid #ecf0f1; padding-bottom: 15px; margin-bottom: 20px; text-align: center;">
+        إنشاء حساب جديد
+    </h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div style="line-height: 1.8;">
+            {{ form.as_p }}
+        </div>
+
+        <div style="margin-top: 25px;">
+            <button type="submit" class="btn btn-blue" style="width: 100%; font-size: 16px;">إنشاء الحساب (Sign
+                Up)</button>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #7f8c8d;">
+            لديك حساب بالفعل؟
+            <a href="{% url 'login' %}" style="color: #2980b9; text-decoration: none; font-weight: bold;">سجل دخولك
+                هنا</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

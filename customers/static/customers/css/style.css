@@ -1,30 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
 body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
+    color: #2c3e50;
 }
 
-nav {
-    background-color: #2c3e50;
-    padding: 15px;
+/* شريط التنقل */
+.navbar {
+    background: linear-gradient(45deg, #2c3e50, #3498db);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-nav a {
+.nav-right,
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar a {
     color: white;
     text-decoration: none;
-    margin-right: 20px;
     font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: 0.3s;
 }
 
-nav a:hover {
-    text-decoration: underline;
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
+.welcome-text {
+    font-weight: bold;
+    color: #f1c40f;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+/* الأزرار الحديثة */
+.btn {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: none;
+    color: white !important;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-purple {
+    background: linear-gradient(45deg, #8e44ad, #9b59b6);
+}
+
+.btn-green {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+}
+
+.btn-red {
+    background: linear-gradient(45deg, #c0392b, #e74c3c);
+}
+
+.btn-blue {
+    background: linear-gradient(45deg, #2980b9, #3498db);
+}
+
+/* الحاوية الأساسية */
 .container {
-    padding: 40px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-h1 {
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 15px;
+}
+
+/* الجداول الحديثة */
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.modern-table th {
+    background-color: #34495e;
+    color: white;
+    padding: 15px;
+    text-align: right;
+}
+
+.modern-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f2f6;
     color: #2c3e50;
+}
+
+.modern-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.text-link {
+    font-weight: bold;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.blue-text {
+    color: #2980b9;
+    background: #ebf5fb;
+}
+
+.red-text {
+    color: #c0392b;
+    background: #fdedec;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+    margin-top: 40px;
+}
+
+/* تصميم حقول الإدخال في النماذج (Forms) */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* تصميم حقول الإدخال في النماذج (Forms) - تم إضافة كلمة المرور */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+    transition: 0.3s;
+}
+
+/* تأثير التحديد (Focus) عند النقر على المربع */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* 🌟 تحسين شكل النصوص المساعدة (شروط كلمة المرور باللغة الإنجليزية) 🌟 */
+.helptext,
+form ul {
+    font-size: 13px;
+    color: #7f8c8d;
+    text-align: left;
+    direction: ltr;
+    /* لعرض الشروط الإنجليزية بشكل صحيح من اليسار لليمين */
+    display: block;
+    margin-bottom: 15px;
 }

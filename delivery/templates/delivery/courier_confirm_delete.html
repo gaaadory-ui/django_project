@@ -1,11 +1,22 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<h2>تأكيد الحذف</h2>
-<p>هل أنت متأكد أنك تريد حذف المندوب: <strong>{{ object.name }}</strong>؟</p>
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit" style="background-color: red; color: white; padding: 8px;">نعم، احذف نهائياً</button>
-    <a href="{% url 'courier_list' %}" style="margin-left: 10px;">إلغاء</a>
-</form>
+<div
+    style="max-width: 500px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1); border-top: 5px solid #e74c3c; text-align: center;">
+
+    <h2 style="color: #c0392b; margin-bottom: 20px;">تأكيد الحذف!</h2>
+
+    <p style="font-size: 18px; color: #34495e; margin-bottom: 30px;">
+        هل أنت متأكد أنك تريد حذف المندوب <strong>"{{ object.name }}"</strong> بشكل نهائي؟ <br>
+        <span style="color: #7f8c8d; font-size: 14px;">لا يمكن التراجع عن هذه الخطوة.</span>
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <button type="submit" class="btn btn-red">نعم، احذف المندوب</button>
+            <a href="{% url 'courier_list' %}" class="btn" style="background-color: #bdc3c7;">إلغاء</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
