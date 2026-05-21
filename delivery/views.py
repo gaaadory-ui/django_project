@@ -19,7 +19,7 @@ def courier_create(request):
             return redirect('courier_list')
     else:
         form = CourierForm()
-    return render(request, 'delivery/courier_register.html.html', {'form': form})
+    return render(request, 'delivery/courier_register.html', {'form': form})
 
 # 3. تعديل بيانات مندوب
 @login_required(login_url='login')
